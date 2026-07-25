@@ -4,10 +4,10 @@ Hard rules. "It feels more natural in plpgsql" is not a reason.
 
 ## Rungs in SQL
 
-- **1 Structure.** Finite-domain values are rows referenced by FK, not text: comparison becomes an equality join; numbers live in numeric columns; IDs join things — humans get names via a label table. Validating data your own schema produced means the schema is wrong, not the data.
-- **2 Declaration.** Unique/expression index (CASE allowed, `NULLS NOT DISTINCT`), CHECK, composite FK. Key trick — denormalize the parent discriminator into the child: `FOREIGN KEY (parent_id, kind) REFERENCES parent (id, kind) ON UPDATE CASCADE`, so the parent's attribute participates in the child's constraints; racy "IF single THEN update ELSE insert" trigger logic becomes one race-free upsert against a declarative index.
-- **3 Derivation.** A subsystem's whole semantics is ONE SELECT over the full cross join of its domains. The only sanctioned cache: derived table + refresh trigger + reconciliation test against that reference query — never a second source of truth.
-- **4 Reaction.** Triggers maintain derived data only — never business rules a constraint could hold, never destruction of user-entered data.
+- **2 Structure.** Finite-domain values are rows referenced by FK, not text: comparison becomes an equality join; numbers live in numeric columns; IDs join things — humans get names via a label table. Validating data your own schema produced means the schema is wrong, not the data.
+- **3 Declaration.** Unique/expression index (CASE allowed, `NULLS NOT DISTINCT`), CHECK, composite FK. Key trick — denormalize the parent discriminator into the child: `FOREIGN KEY (parent_id, kind) REFERENCES parent (id, kind) ON UPDATE CASCADE`, so the parent's attribute participates in the child's constraints; racy "IF single THEN update ELSE insert" trigger logic becomes one race-free upsert against a declarative index.
+- **4 Derivation.** A subsystem's whole semantics is ONE SELECT over the full cross join of its domains. The only sanctioned cache: derived table + refresh trigger + reconciliation test against that reference query — never a second source of truth.
+- **5 Reaction.** Triggers maintain derived data only — never business rules a constraint could hold, never destruction of user-entered data.
 
 ## Hard rules
 

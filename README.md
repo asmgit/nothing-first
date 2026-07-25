@@ -10,12 +10,13 @@ Works for any language, any architecture (even with no code at all), any algorit
 
 Start every entity at rung 0. Fall one rung only when the current rung provably cannot meet the need.
 
-0. **Nothing** — does the entity need to exist at all?
-1. **Structure** — reshape what exists so the invalid state is unrepresentable and the need disappears
-2. **Declaration** — state the rule once to an engine that enforces it: types, constraint, config, CI gate
-3. **Derivation** — one pure transformation over the whole input; derivable things are never maintained by hand
-4. **Reaction** — automatic response to change, only at boundaries where the outside world changes
-5. **Orchestration** — imperative glue you own; last resort
+0. **Nothing** — does the entity need to exist at all? The need may dissolve on reformulation or not yet be a fact
+1. **Reuse** — it already exists, or a near-equivalent adapts with minimal changes; search nearest scope first: this project, your own memory, the platform and stdlib, the wider world
+2. **Structure** — reshape what exists so the invalid state is unrepresentable and the need disappears
+3. **Declaration** — state the rule once to an engine that enforces it: types, constraint, config, CI gate
+4. **Derivation** — one pure transformation over the whole input; derivable things are never maintained by hand
+5. **Reaction** — automatic response to change, only at boundaries where the outside world changes
+6. **Orchestration** — imperative glue you own; last resort
 
 The skill also carries a mandatory deletion pass before anything is called done, honesty probes, red flags, and counters for the standard rationalizations — every one observed verbatim in baseline tests of agents working without the skill. Domain annex: [references/sql-postgres.md](references/sql-postgres.md) instantiates the ladder as hard rules for SQL/Postgres.
 
