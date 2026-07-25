@@ -79,3 +79,5 @@ Every row was observed verbatim in baseline tests of agents without this skill.
 ## Domain annexes
 
 Working in SQL/Postgres/Supabase — read [references/sql-postgres.md](references/sql-postgres.md) before designing schemas, queries, triggers, or RLS: it instantiates the ladder as hard rules.
+
+Annexes learn. A verified, non-obvious win from a real task — a platform trick or conclusion a fresh agent would not re-derive from this core — is appended to the matching annex (create references/<domain>.md if missing). Gate, in order: verified by evidence (test, EXPLAIN, measurement), not narrative; not already present and not re-derivable from the core — re-derivable is rung 0 for the entry; general to the domain — project-specific knowledge goes to project memory, never here. Entry = rule + when it applies, one or two lines; provenance lives in the git commit. The deletion pass runs over annexes too.

@@ -13,7 +13,7 @@ Hard rules. "It feels more natural in plpgsql" is not a reason.
 
 - **DML is the API.** Never wrap a single INSERT/UPDATE/upsert in a function — a wrapper is a second API to keep in sync. Tables + GRANT/RLS with column lists (`GRANT INSERT (col1, col2) ON t`) are the stable API. Functions exist only for multi-statement orchestration or to expose a read-side relation.
 - **One relation, not N getters.** A parameterless set-returning function or view; callers restrict with WHERE. No scalar getters (`is_visible(user, item)`), no chains of tiny functions: the unit of composition is the query (CTEs in one statement) — function ladders blind the planner and scatter semantics. Verify inlining and predicate pushdown with EXPLAIN.
-- **Set-based, single-statement.** `IF TG_OP = 'DELETE' THEN OLD ELSE NEW` plumbing → `COALESCE(NEW.col, OLD.col)` in one statement; PERFORM-per-row → one INSERT ... SELECT; check-then-act → upsert.
+- **Set-based, single-statement.** `IF TG_OP = 'DELETE' THEN OLD ELSE NEW` plumbing → `COALESCE(NEW.col, OLD.col)` in one statement; PERFORM-per-row → one INSERT ... SELECT; check-then-act → upsert; two-phase sync (SELECT then branch UPDATE/INSERT) that needs the action taken → `MERGE ... RETURNING merge_action()` (PG17+).
 - **One mechanism, N configs.** Exclusion = weight 0, not a special rule; N actor kinds = one supertype table, so one fact table serves all.
 
 ## Red flags
