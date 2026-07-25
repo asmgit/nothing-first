@@ -19,6 +19,15 @@ Start every entity at rung 0. Fall one rung only when the current rung provably 
 
 The skill also carries a mandatory deletion pass before anything is called done, honesty probes, red flags, and counters for the standard rationalizations — every one observed verbatim in baseline tests of agents working without the skill. Domain annex: [references/sql-postgres.md](references/sql-postgres.md) instantiates the ladder as hard rules for SQL/Postgres.
 
+## Prior art
+
+Rung 0 applies to this skill itself: before owning it, check what already exists. The check was run late — an early version was written without it, which is exactly the failure mode rung 0 names. What it found:
+
+- [Ponytail](https://github.com/DietrichGebert/ponytail) — the closest neighbor: the same maxim ("the best code is the code never written") and a source-of-code ladder starting at "does this need to exist at all?", always-on, deletion over addition. Scoped to coding tasks; its derivative `minimalist` and a family of YAGNI/KISS guard skills cover the same rung-0 territory as principle summaries.
+- Built-in `/simplify` and published code-simplification skills — post-hoc, behavior-preserving cleanup of a diff, no existence questioning.
+
+What none of them contained at the time of the check (2026-07-25): the mechanism-class Existence Ladder (Structure > Declaration > Derivation > Reaction > Orchestration), the any-entity/any-domain scope (docs, processes, architecture with no code), the reality-audited deletion pass ("an entity refused in prose but still present on disk"), the baseline-observed rationalization table, and the SQL/Postgres annex. That difference is why this skill exists as a separate entity. If it ever stops being a difference, this skill's own ladder says: delete it and point here to the survivor.
+
 ## Install (Claude Code)
 
 ```bash

@@ -18,7 +18,7 @@ ALWAYS ON: any language, any domain, pure architecture with no code, non-code wo
 
 Start every entity at rung 0. Fall one rung only when the current rung provably cannot meet the need — "feels more natural", "we might need it later", "the user asked for this mechanism" are not proofs.
 
-0. **Nothing.** Does the entity need to exist at all? An existing entity, the platform, the stdlib, or a reformulated need may already cover it. Having named a primitive that covers the need, you may not hand-roll a replacement until you prove the difference cannot be an argument, a key, or a one-line use of it.
+0. **Nothing.** Does the entity need to exist at all? An existing entity, the platform, the stdlib, or a reformulated need may already cover it. Before creating anything, search for an existing equivalent — in the codebase, the platform, and the wider world (libraries, registries, marketplaces) — and searching means looking, not recalling. Having named or found a primitive that covers the need, you may not hand-roll a replacement until you prove the difference cannot be an argument, a key, or a one-line use of it.
 1. **Structure.** Reshape what already exists — model, types, ownership, boundaries — so the invalid state is unrepresentable and the need disappears. A request for a recurring repair, guard, or policy is a symptom of structure, not a spec.
 2. **Declaration.** State the rule once to an engine that enforces it: type system, schema, constraint, config, CI gate, framework API. Machines enforce; humans forget — never ship a human-dependent rule where a machine gate exists.
 3. **Derivation.** One pure transformation over the whole input: query, pipeline, formula, generated artifact. Derivable state or documents are never maintained by hand; a copy of truth is legal only as a derivation with a stated source and a reconciliation check.
@@ -64,7 +64,7 @@ Every row was observed verbatim in baseline tests of agents without this skill.
 ## Red Flags — stop and delete
 
 - An interface, base class, wrapper, or helper with exactly one implementation or caller
-- A hand-rolled twin of a platform or stdlib primitive
+- A twin of an entity that already exists — in the codebase, the platform, the stdlib, or published elsewhere — built without searching first
 - A recurring job, checklist, or policy doc that repairs or polices what a constraint could forbid
 - A monitor or net expected to always report zero
 - Re-validation of what a boundary or lower layer already guarantees
