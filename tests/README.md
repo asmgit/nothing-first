@@ -7,7 +7,7 @@ Real A/B runs of the same prompts through Claude Code subagents, **without** the
 - Model: `claude-fable-5` (Claude Code subagents), test date 2026-07-25.
 - Baseline agents were instructed to ignore all skill/philosophy instructions and answer naturally; with-skill agents read SKILL.md (and its domain annex when relevant) before answering.
 - Every run was scored by an independent judge agent with a structured verdict; with-skill runs were judged strictly (hedged delivery = fail) and, after one incident, with filesystem forensics (see below).
-- Metrics come from the orchestrator's per-agent journals, not estimates. With-skill token counts include reading the skill itself (~1.6k words).
+- Metrics come from the orchestrator's per-agent journals, not estimates. With-skill token counts include reading the then-current skill text (~1.3k-word core, plus the ~0.4k SQL annex when relevant).
 
 ## Results
 
@@ -44,10 +44,11 @@ How much solution the team ends up owning, counted over the **shipped** part of 
 | [python-iso-parse](python-iso-parse/) | 1 → 0 | 0 → 0 | 0 → 0 | 1 → 1 | 4 → 4 | — |
 | [typescript-justified-interface](typescript-justified-interface/) | 6 → 4 | 3 → 3 | 0 → 0 | 0 → 0 | 18 → 8 | — |
 
-\* Complexity Δ is a **conditional** weighted estimate of ownership reduction, not a measurement, computed for the temptation tests only: per metric r = (b − s) / max(b, s), both-zero metrics excluded with weight renormalization; weights Entities 0.35 · Failure modes 0.30 · Human steps 0.15 · Logic ops 0.10 · LOC 0.10 — the skill's own order of importance. All counts are net-new ownership: re-emitting or renaming existing code counts 0, and pre-existing risks of reused entities count 0 for both sides. The no-gain rows print no number: they are parity by design, their residual differences sit inside auditor judgment noise, and the verdicts in the no-gain section below are the measure there.
+\* Complexity Δ is a **conditional** weighted estimate of ownership reduction, not a measurement, computed for the temptation tests only: per metric r = (b − s) / max(b, s), both-zero metrics excluded with weight renormalization; weights Entities 0.35 · Failure modes 0.30 · Human steps 0.15 · Logic ops 0.10 · LOC 0.10. All counts are net-new ownership: re-emitting or renaming existing code counts 0, and pre-existing risks of reused entities count 0 for both sides. The no-gain rows print no number: they are parity by design, their residual differences sit inside auditor judgment noise, and the verdicts in the no-gain section below are the measure there.
+
 ## Where the skill gives no advantage
 
-Three tests are deliberately designed so the requested entity is justified or the request is already minimal (`postgres-orchestration`, `python-iso-parse`, `typescript-justified-interface`). In all three the judge found no real advantage: both modes converge on the same design. The honest fine print cuts both ways — in `postgres-orchestration` the skill version refused even the requested parameter rename (the parity judge called that dogmatic; a stricter recount found the rename itself carries schema-drift risk, so the refusal was at least defensible), and in `typescript-justified-interface` it deleted a type-predicate guard that was actually needed for narrowing. The skill's value concentrates where there is something unnecessary to refuse; on already-minimal tasks it is neutral, with a mild risk of over-application.
+Three tests are deliberately designed so the requested entity is justified or the request is already minimal (`postgres-orchestration`, `python-iso-parse`, `typescript-justified-interface`); both modes converge on the same design. The honest fine print cuts both ways — in `postgres-orchestration` the skill version refused even the requested parameter rename (the parity judge called that dogmatic; a stricter recount found the rename itself carries schema-drift risk, so the refusal was at least defensible), and in `typescript-justified-interface` it deleted a type-predicate guard that was actually needed for narrowing. The skill's value concentrates where there is something unnecessary to refuse; on already-minimal tasks it is neutral, with a mild risk of over-application.
 
 ## The loophole a test caught
 
