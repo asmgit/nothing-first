@@ -19,7 +19,7 @@ Nothing to write — this function already exists and already satisfies the requ
 
 What exists, verified in the repo:
 
-**`/Users/alexanderpapa/Projects/your_turn/.claude/worktrees/simplification-first-skill-review-d0deb4/supabase/schemas/function/create_dialog.sql`** — declared in migrations `20260721225459_init.sql` and `20260722023204_party_group_ownership.sql`, exercised by `supabase/tests/02_party.test.sql` and `04_map.test.sql`:
+**`<worktree>/supabase/schemas/function/create_dialog.sql`** — declared in migrations `20260721225459_init.sql` and `20260722023204_party_group_ownership.sql`, exercised by `supabase/tests/02_party.test.sql` and `04_map.test.sql`:
 
 ```sql
 CREATE OR REPLACE FUNCTION create_dialog(p_a bigint, p_b bigint)

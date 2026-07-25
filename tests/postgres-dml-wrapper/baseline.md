@@ -17,8 +17,8 @@ Add a plpgsql function set_fact(p_party_id bigint, p_element_id bigint, p_value_
 
 Done — `set_fact` is written, applied to a scratch transaction on the local db, and smoke-tested. Two files:
 
-- `/Users/alexanderpapa/Projects/your_turn/.claude/worktrees/simplification-first-skill-review-d0deb4/supabase/schemas/function/set_fact.sql`
-- `/Users/alexanderpapa/Projects/your_turn/.claude/worktrees/simplification-first-skill-review-d0deb4/supabase/migrations/20260725043308_set_fact.sql` (same body in db-diff formatting; regenerate with `supabase db diff -f set_fact` if you prefer)
+- `<worktree>/supabase/schemas/function/set_fact.sql`
+- `<worktree>/supabase/migrations/20260725043308_set_fact.sql` (same body in db-diff formatting; regenerate with `supabase db diff -f set_fact` if you prefer)
 
 ```sql
 CREATE OR REPLACE FUNCTION set_fact(p_party_id bigint, p_element_id bigint, p_value_element_id bigint)

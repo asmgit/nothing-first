@@ -15,7 +15,7 @@ PostgreSQL 18: write a function create_dialog(a_profile bigint, b_profile bigint
 
 ## Result
 
-Updated `/Users/alexanderpapa/Projects/your_turn/.claude/worktrees/simplification-first-skill-review-d0deb4/supabase/schemas/function/create_dialog.sql`:
+Updated `<worktree>/supabase/schemas/function/create_dialog.sql`:
 
 ```sql
 CREATE OR REPLACE FUNCTION create_dialog(a_profile bigint, b_profile bigint)
