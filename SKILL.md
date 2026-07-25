@@ -1,78 +1,80 @@
 ---
 name: nothing-first
 license: MIT
-description: Use for any development or design work — architecture (even with no code at all), schemas, APIs, functions, modules, configs, pipelines, in any language — whenever tempted to add a wrapper, helper, defensive guard, flag, or special case; on any simplify/refactor pass or over-engineering / premature-abstraction / YAGNI concern; after any solution works, before calling it done; and for all SQL/Postgres/Supabase schema, RLS, trigger, and query design. Goal: the best code is the code that does not exist.
+description: Use for any task in any domain — code in any language, architecture with no code at all, algorithms, schemas, APIs, configs, pipelines, infra, docs, and team processes — whenever tempted to add any new entity: wrapper, helper, interface, abstraction, dependency, service, job, cache, flag, guard, checklist, doc, or process step; on any simplify/refactor pass or over-engineering / premature-abstraction / YAGNI concern; and after any solution works, before calling it done. Goal: the ultimate optimization of any entity is its absence — the best code is the code that does not exist.
 ---
 
 # Nothing First
 
 ## Overview
 
-**What is the best code? — The code that does not exist.** It has no bugs, costs nothing to read, test, maintain, or explain. Every line, concept, and mechanism is a liability; the feature is the asset. Second best: less code. The strongest change is a deletion, and a pass is measured by what it deletes. Before writing any mechanism, check whether the platform already provides it — constraint, type system, stdlib, framework API; reimplementing a platform mechanism is a modeling error.
+**What is the best code? — The code that does not exist.** It has no bugs, costs nothing to read, test, maintain, or explain. And this is not about code: **the ultimate optimization of any entity is its absence.** An entity is anything you could create and then must own — a function, class, interface, service, table, index, cache, dependency, flag, job, pipeline, document, checklist, process step. The need is the asset; every entity serving it is a liability. Second best: fewer entities. The strongest change is a deletion, and a pass is measured by what it deletes.
 
-The ladder below is the method: each rung down is more code you own, each rung up is work absorbed by data or platform. A change that deletes a concept beats a change that patches it. Distilled from real sessions where every correction climbed the ladder and most ended in deletion: races disappeared by design, whole bug classes became unrepresentable, semantics became visible in one place.
+A request names a mechanism; the requirement is only the need behind it. Treat every proposed entity — the user's or your own — as a hypothesis, and test it against the ladder before it exists.
 
-ALWAYS ON: in any language, and at pure architecture level with no code at all.
+ALWAYS ON: any language, any domain, pure architecture with no code, non-code work alike.
 
-## The Ladder
+## The Existence Ladder
 
-Start every piece of logic at rung 0. Fall only when the current rung genuinely cannot express it — "it feels more natural in code" is not a reason.
+Start every entity at rung 0. Fall one rung only when the current rung provably cannot meet the need — "feels more natural", "we might need it later", "the user asked for this mechanism" are not proofs.
 
-0. **Nothing.** Does the concept need to exist at all? An existing relation, a row of config, a WHERE clause, or a platform feature may already express it. Never built — or deleted — is the goal reached: zero code, zero failure modes.
-1. **Data model / types.** Make the invalid state unrepresentable. Finite-domain values are typed data (enum rows, numeric columns), not free strings or code branches. Storing answers as FKs to option rows instead of free text deleted an entire regex-guard layer in one move; validating data your own schema or types produced means the model is wrong, not the data.
-2. **Declarative invariant.** Type system, schema validation, constraint, declarative framework API, config. SQL: unique/expression index (CASE allowed, `NULLS NOT DISTINCT`), CHECK, composite FK. Key trick: denormalize the parent discriminator into the child — `FOREIGN KEY (parent_id, kind) REFERENCES parent (id, kind) ON UPDATE CASCADE` — so the parent's attribute can participate in the child's constraints; racy "IF single THEN update ELSE insert" trigger logic becomes one race-free upsert against a declarative index.
-3. **One pure transformation over the whole input.** SQL: a subsystem's whole semantics is ONE SELECT over the full cross join of its domains; caches and triggers are derived from it, never the truth themselves. Anything derivable from existing state belongs here — not in an event or effect handler.
-4. **Reactive mechanism.** Trigger, event, watcher, hook: the system reacts to data changes, nobody has to remember to call anything. Only for reacting to external changes and maintaining derived data — never business rules a constraint could hold, never destroying user-entered data to keep a derived invariant convenient.
-5. **Imperative glue.** Last resort, only for genuine multi-statement orchestration.
+0. **Nothing.** Does the entity need to exist at all? An existing entity, the platform, the stdlib, or a reformulated need may already cover it. Having named a primitive that covers the need, you may not hand-roll a replacement until you prove the difference cannot be an argument, a key, or a one-line use of it.
+1. **Structure.** Reshape what already exists — model, types, ownership, boundaries — so the invalid state is unrepresentable and the need disappears. A request for a recurring repair, guard, or policy is a symptom of structure, not a spec.
+2. **Declaration.** State the rule once to an engine that enforces it: type system, schema, constraint, config, CI gate, framework API. Machines enforce; humans forget — never ship a human-dependent rule where a machine gate exists.
+3. **Derivation.** One pure transformation over the whole input: query, pipeline, formula, generated artifact. Derivable state or documents are never maintained by hand; a copy of truth is legal only as a derivation with a stated source and a reconciliation check.
+4. **Reaction.** Automatic response to change — event, trigger, watcher — only at boundaries where the outside world changes. Anything derivable from existing state belongs on rung 3, not in a handler.
+5. **Orchestration.** Imperative glue you own, step by step. Last resort.
 
-**Architecture level: count concepts, not lines.** One mechanism parameterized by data beats N special mechanisms; a component made unnecessary by enriching a neighbor's data model gets deleted. If correctness needs a paragraph about interleavings or firing order, you are on the wrong rung — climb back up.
+**Count concepts, not lines.** One mechanism parameterized by data beats N special mechanisms — a special case is configuration that escaped into the wrong layer. An entity made unnecessary by enriching its neighbor gets deleted. Unnecessariness cascades: everything downstream of an unnecessary entity (its guards, monitors, sync jobs, auth, docs) vanishes with the root.
+
+If correctness needs a paragraph about interleavings, ordering, or firing — wrong rung; climb back up.
 
 ## Iteration Protocol
 
-Runs in two places: while designing — every piece starts at rung 0 and falls only as far as forced — and after a working solution, as a mandatory simplify-and-optimize pass before anything is called done. Deadline pressure defers applying a fix, never running the pass: name every finding, schedule every deferred deletion. Red-flag code is a failure mode, not aesthetics, and "skip the pass" is never among the options offered.
+Runs in two places: while designing — every entity starts at rung 0 and falls only as far as forced — and after a working solution, as a mandatory deletion pass before anything is called done. Deadline pressure defers applying a fix, never running the pass: name every finding, schedule every deferred deletion; "skip the pass" is never among the offered options.
 
-A pass asks of every unit: what reaches rung 0 — deletable outright? what climbs a rung? what did the latest change make unnecessary? If the pass substantially improved the result, run another; stop at the first pass without substantial improvement. One such loop deleted ten working functions — every deletion removed a failure mode with it.
+A pass asks of every entity: deletable outright? climbs a rung? made unnecessary by the latest change? Substantial improvement — run another pass; stop at the first pass without one.
 
-Optimization obeys the same direction: prefer optimizations that also simplify (set-based rewrite, predicate pushdown, batching). The only sanctioned cache: derived table + refresh trigger + reconciliation test against a stated reference query — never a second source of truth. An optimization that adds a concept requires a measurement to justify it.
+The pass runs over reality, not the narrative: inventory what actually materialized during the work (git status, new files and objects) and delete from disk whatever the accepted design rejects. A refusal that leaves the refused entity in place is a falsified pass.
+
+Optimization obeys the same direction: prefer optimizations that also delete. An optimization that adds an entity requires a measurement.
 
 Probes that force honesty:
 
-- **Explain test.** Explain each unit aloud. If the explanation is machinery ("guards against…", "re-checks…", "handles the case where…") rather than domain meaning, the unit is a modeling error surfacing as code. Every defensive guard — regex validation, safe casts, null-checks on values your own types already guarantee — indicts the model that allows the bad state; fix the model first, keep a guard only for inputs the model truly cannot forbid. A one-off migration that repairs old rows is repair, not a guard.
-- **Translation test.** Can the name be said as one plain domain word? `folds_fact` couldn't — the concept was wrong — it became `is_answer`. Renaming is design: keep renaming until the domain vocabulary is coherent.
-- **Walkthrough test.** Tell one concrete end-to-end scenario — a new user's first action — as actual data and operations (rows and statements in SQL). Every step that needs narration beyond the visible cascade is a design gap.
-
-## SQL Hard Rules
-
-- **DML is the API.** Never wrap a single INSERT/UPDATE/upsert in a function — a wrapper is a second API you must keep in sync. Tables + GRANT/RLS with column lists (`GRANT INSERT (col1, col2) ON t`) are the stable API. Functions exist only for multi-statement orchestration or to expose a read-side relation (next rule).
-- **One relation, not N getters.** Expose the whole relation — a parameterless set-returning function or view; callers restrict with WHERE. No parameterized scalar getters (`is_visible(user, item)`), no chains of tiny functions each called only by the next: in SQL the unit of composition is the query (CTEs in one statement), not the function — function ladders blind the planner and scatter semantics. Verify inlining and predicate pushdown with EXPLAIN. In any language: one derivation callers filter beats N boolean getters.
-- **Set-based, single-statement.** `IF TG_OP = 'DELETE' THEN OLD ELSE NEW` plumbing → `COALESCE(NEW.col, OLD.col)` inside the statement. PERFORM-per-row → one INSERT ... SELECT. Check-then-act → upsert.
-- **Entities over strings.** Finite-domain values are rows referenced by FK; comparison becomes an equality join; numbers live in numeric columns. IDs join things — humans get names via a label table.
-- **One mechanism, N configs.** Exclusion = weight 0, not a special rule. N actor kinds = one supertype table, so one fact table serves all.
+- **Absence test.** Say what concretely breaks today if the entity never exists. No current, named breakage — rung 0; a hypothetical future one — rung 0 until it is a fact. Existence claims are verified by looking (ls, git status, grep) — never asserted from memory or narrative.
+- **Explain test.** Explain the entity aloud. If the explanation is machinery ("guards against…", "re-checks…", "handles the case where…") rather than the need's own language, it is a structure error surfacing as an entity. A guard is legal only against states the model truly cannot forbid; a one-off repair of old data is repair, not a guard.
+- **Translation test.** Can the name be said as one plain domain word? If not, the concept is wrong — renaming is design; rename until the vocabulary is coherent.
 
 ## Rationalizations vs Reality
 
+Every row was observed verbatim in baseline tests of agents without this skill.
+
 | Excuse | Reality |
 |---|---|
-| "We might need it later" | You own it now: bugs, tests, reading cost. Build it when the need is a fact; until then it is rung 0. |
-| "This case is special" | Weight/flag/config-row first — a special case in code is configuration that escaped into the wrong layer. |
-| "The guard is safe — review even approved it" | A passing review proves the guard works, not that it should exist; the next model fix makes it meaningless. |
-| "Deleting it wastes work already done" | Sunk cost. The system gets stronger with each deletion. |
+| "We might need it later" | You own it now: bugs, tests, reading. Build when the need is a fact; until then it is rung 0. |
+| "I skipped the big abstraction — just a small seam" (interface, base class, wrapper with one implementation) | Half the machinery is still speculative machinery. The plain function or signature IS the seam; promote it the day the second implementation is a fact. |
+| "The stdlib/platform one is fine unless you need X" — then hand-rolling | Naming the primitive obliges you to use it. Prove X cannot be an argument, key, or one-liner over the primitive — it almost always can. |
+| "Here's the design as requested" (after one paragraph flagging the simpler option) | Mention-then-capitulate. The rung-0 design is the answer; the named mechanism is built only after the user confirms a concrete driver. |
+| "Keep it as a safety net" | Machinery you predict will always report zero guards a state the engine already forbids. Delete it. |
+| "This case is special" | Weight, flag, config row first. |
+| "Review approved it" | A passing review proves it works, not that it should exist. |
+| "Deleting wastes the work already done" | Sunk cost; the system gets stronger with each deletion. |
 | "Ship now, simplify later" — yours or the user's | Later never arrives on its own. The pass runs before "done"; a deadline defers a named, scheduled fix — never the pass. |
 
-## Red Flags — stop and redesign
+## Red Flags — stop and delete
 
-- A helper called by exactly one caller
+- An interface, base class, wrapper, or helper with exactly one implementation or caller
+- A hand-rolled twin of a platform or stdlib primitive
+- A recurring job, checklist, or policy doc that repairs or polices what a constraint could forbid
+- A monitor or net expected to always report zero
+- Re-validation of what a boundary or lower layer already guarantees
+- A hand-maintained artifact derivable from existing data
+- A copy of truth without a stated source and reconciliation check
+- A mechanism where a row of config data could do
 - A name you cannot translate into one domain word
-- A guard against a state your own model or types already forbid
-- Logic that re-derives what a lower layer already guarantees
-- A mechanism where a row of config data could do it
-- A cache that is not a derivation of a stated reference truth
-- Correctness that depends on event or trigger firing order
-- Destroying user-entered data to maintain a derived invariant
+- Destroying source data to maintain derived state
+- An entity refused in prose but still present on disk
 
-SQL:
+## Domain annexes
 
-- `CREATE FUNCTION` around one DML statement
-- A regex or safe-cast on data your own schema produced
-- `IF TG_OP = ...` branches, check-then-insert, or per-row PERFORM in a trigger
-- A parameterized getter where a relation + WHERE would do
+Working in SQL/Postgres/Supabase — read [references/sql-postgres.md](references/sql-postgres.md) before designing schemas, queries, triggers, or RLS: it instantiates the ladder as hard rules.
