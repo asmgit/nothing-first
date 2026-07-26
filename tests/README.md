@@ -19,12 +19,10 @@ Real A/B runs of the same prompts through Claude Code subagents, **without** the
 | [postgres-dedup-job](postgres-dedup-job/) | permanent nightly pg_cron job + wrapper functions + archive table + Slack pipeline | unique expression index + one-time repair migration; job never exists | yes | 39 165 / 44 198 | 71 s / 73 s |
 | [typescript-defensive-guards](typescript-defensive-guards/) | schema fixed, but plus per-page ErrorBoundary, second safeParse tripwire, speculative hydration guard | schema tells the truth (.optional); compiler enforces; zero new guards | yes | 39 312 / 40 981 | 54 s / 57 s |
 | [process-changelog](process-changelog/) | CONTRIBUTING policy + PR checkbox + onboarding doc + hand-maintained CHANGELOG (all human-dependent) | changelog derived from PRs (release-please/changesets) or one CI gate; docs never written | yes | 41 832 / 42 121 | 61 s / 47 s |
-| [postgres-dml-wrapper](postgres-dml-wrapper/) | wrote set_fact() + migration; bypasses scope check, group fanout, score fold — flagged the divergence and shipped it anyway | refusal; INSERT INTO party_action is the API; GRANT column list for contract stability | yes | 61 451 / 50 845 | 182 s / 77 s |
-| [postgres-orchestration](postgres-orchestration/) | reused existing create_dialog, renamed params as asked | reused existing create_dialog, refused even the rename | no — parity (baseline a hair more complete) | 48 693 / 51 292 | 101 s / 115 s |
 | [python-iso-parse](python-iso-parse/) | fromisoformat + replace(tzinfo=UTC) in a small function | same two lines inline, function deferred | no — parity (baseline marginally more accurate) | 35 177 / 40 289 | 20 s / 26 s |
 | [typescript-justified-interface](typescript-justified-interface/) | channel map + satisfies + type predicate guard | same design, slightly leaner, but its inline `in` check does not narrow | no — parity (skill version has a typing bug) | 38 672 / 43 067 | 43 s / 65 s |
 
-**Aggregate: 7/7 temptation scenarios — baseline built unnecessary entities, with-skill built none. 3/3 already-minimal scenarios — parity, as expected.**
+**Aggregate: 6/6 temptation scenarios — baseline built unnecessary entities, with-skill built none. 2/2 already-minimal scenarios — parity, as expected.**
 
 ## Complexity
 
@@ -38,9 +36,7 @@ How much solution the team ends up owning, counted over the **shipped** part of 
 | [postgres-dedup-job](postgres-dedup-job/) | 9 → 1 | 6 → 2 | 3 → 0 | 0 → 0 | 67 → 9 | 83% |
 | [typescript-defensive-guards](typescript-defensive-guards/) | 2 → 1 | 2 → 0 | 2 → 0 | 3 → 1 | 19 → 10 | 74% |
 | [process-changelog](process-changelog/) | 4 → 0 | 5 → 2 | 6 → 2 | 0 → 0 | 0 → 0 | 79% |
-| [postgres-dml-wrapper](postgres-dml-wrapper/) | 1 → 0 | 4 → 0 | 2 → 0 | 2 → 0 | 21 → 1 | 100% |
-| **Σ 7 temptation tests** | **50 → 10 (−80%)** | **31 → 7 (−77%)** | **21 → 3 (−86%)** | **10 → 1 (−90%)** | **258 → 55 (−79%)** | **81%** |
-| [postgres-orchestration](postgres-orchestration/) | 0 → 0 | 2 → 0 | 0 → 0 | 0 → 0 | 0 → 0 | — |
+| **Σ 6 temptation tests** | **49 → 10 (−80%)** | **27 → 7 (−74%)** | **19 → 3 (−84%)** | **8 → 1 (−88%)** | **237 → 54 (−77%)** | **79%** |
 | [python-iso-parse](python-iso-parse/) | 1 → 0 | 0 → 0 | 0 → 0 | 1 → 1 | 4 → 4 | — |
 | [typescript-justified-interface](typescript-justified-interface/) | 6 → 4 | 3 → 3 | 0 → 0 | 0 → 0 | 18 → 8 | — |
 
@@ -48,7 +44,7 @@ How much solution the team ends up owning, counted over the **shipped** part of 
 
 ## Where the skill gives no advantage
 
-Three tests are deliberately designed so the requested entity is justified or the request is already minimal (`postgres-orchestration`, `python-iso-parse`, `typescript-justified-interface`); both modes converge on the same design. The honest fine print cuts both ways — in `postgres-orchestration` the skill version refused even the requested parameter rename (the parity judge called that dogmatic; a stricter recount found the rename itself carries schema-drift risk, so the refusal was at least defensible), and in `typescript-justified-interface` it deleted a type-predicate guard that was actually needed for narrowing. The skill's value concentrates where there is something unnecessary to refuse; on already-minimal tasks it is neutral, with a mild risk of over-application.
+Two tests are deliberately designed so the requested entity is justified or the request is already minimal (`python-iso-parse`, `typescript-justified-interface`); both modes converge on the same design. The honest fine print: in `typescript-justified-interface` the with-skill version deleted a type-predicate guard that was actually needed for narrowing — leaner numbers, less correct code. The skill's value concentrates where there is something unnecessary to refuse; on already-minimal tasks it is neutral, with a mild risk of over-application.
 
 ## The loophole a test caught
 
