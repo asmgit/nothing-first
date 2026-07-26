@@ -6,8 +6,6 @@ An [Agent Skill](https://agentskills.io) built on one principle: **the ultimate 
 
 Works for any language, any architecture (even with no code at all), any algorithm, any task — including non-code work like docs and team processes.
 
-**Not YAGNI.** YAGNI is a pragmatic bet about the future: don't build what is not yet needed. This skill states the fundamental principle behind it. YAGNI is its projection onto the time axis ("the need is not yet a fact" — one clause of rung 0); KISS projects it onto complexity, DRY onto information, Occam's razor onto concepts. The ladder operationalizes the principle itself — which is why it also covers what YAGNI never touches: dissolving the need, refusing duplicates, deriving instead of maintaining by hand, and deleting what already exists.
-
 ## The Existence Ladder
 
 Start every entity at rung 0. Fall one rung only when the current rung provably cannot meet the need.
