@@ -13,7 +13,7 @@ Works for any language, any architecture (even with no code at all), any algorit
 Start every entity at rung 0. Fall one rung only when the current rung provably cannot meet the need.
 
 0. **Nothing** — does the entity need to exist at all? The need may dissolve on reformulation, be covered by another solution's side effect, or not yet be a fact
-1. **Reuse** — it already exists, or a near-equivalent adapts with minimal changes; search nearest scope first: this project, the session context, the platform and stdlib, the wider world
+1. **Exists** — it already exists, or a near-equivalent adapts with minimal changes; search nearest scope first: this project, the session context, the platform and stdlib, the wider world
 2. **Structure** — reshape what exists so the invalid state is unrepresentable and the need disappears
 3. **Declaration** — state the rule once to an engine that enforces it: types, schema, constraint, config, CI gate
 4. **Derivation** — one pure transformation over the whole input; derivable things are never maintained by hand
@@ -26,7 +26,7 @@ The skill also carries a mandatory deletion pass before anything is called done,
 
 ## Prior art
 
-The ladder's first two rungs apply to this skill itself: does it need to exist, and does an equivalent already exist? The check was run late — an early version was written without it, which is exactly the failure mode rung 1 (Reuse) names. What it found:
+The ladder's first two rungs apply to this skill itself: does it need to exist, and does an equivalent already exist? The check was run late — an early version was written without it, which is exactly the failure mode rung 1 (Exists) names. What it found:
 
 - [Ponytail](https://github.com/DietrichGebert/ponytail) — the closest neighbor: the same maxim ("the best code is the code never written") and a source-of-code ladder starting at "does this need to exist at all?", always-on, deletion over addition. Scoped to coding tasks; its derivative `minimalist` and a family of YAGNI/KISS guard skills cover the same rungs 0–1 territory as principle summaries.
 - Built-in `/simplify` and published code-simplification skills — post-hoc, behavior-preserving cleanup of a diff, no existence questioning.
