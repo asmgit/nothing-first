@@ -8,7 +8,7 @@ description: Use for any task in any domain — code in any language, architectu
 
 ## Overview
 
-**What is the best code? — The code that does not exist.** It has no bugs, costs nothing to read, test, maintain, or explain. And this is not about code: **the ultimate optimization of any entity is its absence.** An entity is anything you could create and then must own — a function, class, service, table, dependency, flag, document, process step. The need is the asset; every entity serving it is a liability. The strongest change is a deletion, and a pass is measured by what it deletes. YAGNI, KISS, DRY, and Occam's razor are single-plane projections of this principle — future need, complexity, information, concepts; the ladder operationalizes the principle itself, and no one projection bounds it.
+**What is the best code? — The code that does not exist.** It has no bugs, costs nothing to read, test, maintain, or explain. And this is not about code: **the ultimate optimization of any entity is its absence.** An entity is anything you could create and then must own — a function, class, service, table, dependency, flag, document, process step. The need is the asset; every entity serving it is a liability. The strongest change is a deletion, and a pass is measured by what it deletes — sunk work never justifies keeping an entity; the system gets stronger with each deletion. YAGNI, KISS, DRY, and Occam's razor are single-plane projections of this principle — future need, complexity, information, concepts; the ladder operationalizes the principle itself, and no one projection bounds it.
 
 A request names a mechanism; the requirement is only the need behind it. A bug report likewise names a symptom: the fix lives where every caller routes, and the sibling grep is the absence test for a symptom-local patch. Treat every proposed entity — the user's or your own — as a hypothesis, and test it against the ladder before it exists.
 
@@ -16,15 +16,15 @@ A request names a mechanism; the requirement is only the need behind it. A bug r
 
 The ladder runs after the need and the touched reality are traced end to end — it shortens the solution, never the reading. Start every entity at rung 0. Fall one rung only when the current rung provably cannot meet the need — "feels more natural" (habit is not best practice), "we might need it later" (a need is a fact, not a forecast), "the user asked for this mechanism" (a mechanism is not the need), "everyone does it this way" (a common practice is a candidate to verify, not a proof) are not proofs.
 
-0. **Nothing.** Does the entity need to exist at all? The need may dissolve when the problem is reformulated, be covered as a side effect of another solution, or not yet be a fact — but a need dissolves only by naming what now covers it; "the need shouldn't exist" is not a dissolution.
-1. **Exists.** It already exists, or a near-equivalent exists that minimal changes adapt — a duplicate is never built. Search nearest scope first, stopping at the first fit: this project (the problem has usually been solved here before), the session context, the platform and stdlib, the wider world — libraries, registries, marketplaces. Effort scales with ownership cost — a throwaway merits a grep, a new dependency or service a real look; an unreachable scope is named and skipped, not stalled on. Judge a fit by today's best practice — checked as fresh as the effort scale warrants, not recalled from last time. This rung is still the fallback, not the goal: even the best found practice standardizes living with a problem rung 0 may dissolve. Adaptation stays additive for existing users — a new argument, key, or branch with the old default preserved; changing behavior existing callers depend on is a new entity, not reuse. Having found a primitive that covers the need, you may not hand-roll a replacement until you prove the difference cannot be an argument, a key, or a one-line use of it.
+0. **Nothing.** Does the entity need to exist at all? The need may dissolve when the problem is reformulated, be covered as a side effect of another solution, or not yet be a fact — but a need dissolves only by naming what now covers it; "the need shouldn't exist" is not a dissolution. A one-implementation interface, wrapper, or seam is a forecast in disguise: the plain function or signature IS the seam — promote it the day the second implementation is a fact, and the seam you offer is an entity too, tested like any other.
+1. **Exists.** It already exists, or a near-equivalent exists that minimal changes adapt — a duplicate is never built. Search nearest scope first, stopping at the first fit: this project (the problem has usually been solved here before), the session context, the platform and stdlib, the wider world — libraries, registries, marketplaces. Effort scales with ownership cost — a throwaway merits a grep, a new dependency or service a real look; an unreachable scope is named and skipped, not stalled on. Judge a fit by today's best practice — checked as fresh as the effort scale warrants, not recalled from last time. This rung is still the fallback, not the goal: even the best found practice standardizes living with a problem rung 0 may dissolve. Adaptation stays additive for existing users — a new argument, key, or branch with the old default preserved; changing behavior existing callers depend on is a new entity, not reuse. Having found — or merely named — a primitive that covers the need, you may not hand-roll a replacement until you prove the difference cannot be an argument, a key, or a one-line use of it; a hand-rolled twin is machinery you own forever — bugs, tests, reading.
 2. **Structure.** Reshape what already exists — model, types, ownership, boundaries — so the invalid state is unrepresentable and the need disappears. A request for a recurring repair, guard, or policy is a symptom of structure, not a spec.
 3. **Declaration.** State the rule once to an engine that enforces it: type system, schema, constraint, config, CI gate, framework API. Machines enforce; humans forget — never ship a human-dependent rule where a machine gate exists, and an already-observed failure grounds its gate: recurrence is not a forecast. Only rules the engine checks and rejects live here; code the engine runs on change is Reaction, wherever it is hosted.
-4. **Derivation.** One pure transformation over the whole input: query, pipeline, formula, generated artifact. Derivable state or documents are never maintained by hand; a copy of truth is legal only as a derivation with a stated source and a reconciliation check.
+4. **Derivation.** One pure transformation over the whole input: query, pipeline, formula, generated artifact. Derivable state or documents are never maintained by hand; a copy of truth is legal only as a derivation with a stated source and a reconciliation check, and source data is never destroyed to maintain the derived.
 5. **Reaction.** Automatic response to change — event, trigger, watcher — only at boundaries where the outside world changes. Anything derivable from existing state belongs on rung 4, not in a handler.
 6. **Orchestration.** Imperative glue you own, step by step. Last resort.
 
-**Count concepts, not lines.** One mechanism parameterized by data beats N special mechanisms — a special case is configuration that escaped into the wrong layer. An entity made unnecessary by enriching its neighbor gets deleted. Unnecessariness cascades: everything downstream of an unnecessary entity (its guards, monitors, sync jobs, auth, docs) vanishes with the root.
+**Count concepts, not lines.** One mechanism parameterized by data beats N special mechanisms — a special case is configuration that escaped into the wrong layer, a mechanism where a row of config data could do is the same escape, and a config nobody sets is a constant, not configuration. An entity made unnecessary by enriching its neighbor gets deleted. Unnecessariness cascades: everything downstream of an unnecessary entity (its guards, monitors, sync jobs, auth, docs) vanishes with the root.
 
 If correctness needs a paragraph about interleavings, ordering, or firing — wrong rung; climb back up.
 
@@ -36,44 +36,15 @@ A pass asks of every entity: deletable outright? climbs a rung? made unnecessary
 
 The pass runs over reality, not the narrative: inventory what this work materialized (git status, new files and objects) and delete from disk what it created that the accepted design rejects. A pre-existing entity the design obsoletes is a proposed deletion — stage or name it for the user, never silently remove what you did not create. A refusal that leaves the refused entity of this work on disk is a falsified pass; inversely, when the user asked for artifacts, prose is not delivery — materialize what the accepted design keeps, or say why not.
 
-The ladder is a test, not a bias: an entity that passes the absence test is the answer — ship it without hedging; deleting or refusing a proven entity is the same falsified pass as keeping an unproven one. The user's explicit decision to keep a named entity — made after hearing the verdict, not in the initial request — ends the question: record the finding once and do not re-litigate it in later passes.
+The ladder is a test, not a bias: an entity that passes the absence test is the answer — ship it without hedging; deleting or refusing a proven entity is the same falsified pass as keeping an unproven one. Mention-then-capitulate fails the same way: the higher-rung design is the answer, stated once — never delivered alongside the refused mechanism. The user's explicit decision to keep a named entity — made after hearing the verdict, not in the initial request — ends the question: record the finding once and do not re-litigate it in later passes.
 
-Optimization obeys the same direction: prefer optimizations that also delete. An optimization that adds an entity requires a measurement. Between candidates with equal entity count, the edge-case-correct one wins — the ladder counts entities, it never trades correctness. Never deleted on any pass: trust-boundary validation, data-loss protections, security controls, accessibility — unless a declaration provably subsumes them.
+Optimization obeys the same direction: prefer optimizations that also delete. An optimization that adds an entity requires a measurement. Between candidates with equal entity count, the edge-case-correct one wins — the ladder counts entities, it never trades correctness. Never deleted on any pass: trust-boundary validation, data-loss protections, security controls, accessibility — unless a declaration provably subsumes them. A monitor or net is dead only when it reports zero because the engine already forbids the state it watches — then delete it.
 
 Probes that force honesty:
 
 - **Absence test.** Say what concretely breaks today if the entity never exists. No current, named breakage — rung 0; a hypothetical future one — rung 0 until it is a fact. Exempt: the minimal check — one runnable check that fails when the logic breaks makes every other verdict checkable; never a deletion target, still capped by the ladder at one smallest check, no speculative suites. A need grounded in an external fact — untrusted input, failure rates, data-loss exposure, compliance, a measured performance cost (a number, not a feeling) — is a fact without a local breakage. Existence claims — including "nothing suitable exists" — are verified by looking (ls, git status, grep), never asserted from memory or narrative; show the look, and label what cannot be inspected from here as an assumption, confirming the load-bearing ones.
-- **Explain test.** Explain the entity aloud. If the explanation is machinery ("guards against…", "re-checks…", "handles the case where…") rather than the need's own language, it is a structure error surfacing as an entity. A guard is legal only against states no reachable structure or declaration could forbid — judge the model as it can be repaired, not as it stands broken; a one-off repair of old data is repair, not a guard.
+- **Explain test.** Explain the entity aloud. If the explanation is machinery ("guards against…", "re-checks…", "handles the case where…") rather than the need's own language, it is a structure error surfacing as an entity. A guard is legal only against states no reachable structure or declaration could forbid — re-validating what a boundary or lower layer already guarantees is machinery, not protection; judge the model as it can be repaired, not as it stands broken. A one-off repair of old data is repair, not a guard, and a passing review proves a unit works, never that it should exist.
 - **Translation test.** Can the name be said as one plain domain word? If not, the concept is wrong — renaming is design; rename until the vocabulary is coherent.
-
-## Rationalizations vs Reality
-
-Every row was observed verbatim in baseline tests of agents without this skill.
-
-| Excuse | Reality |
-|---|---|
-| "We might need it later" | You own it now: bugs, tests, reading. |
-| "I skipped the big abstraction — just a small seam" (interface, base class, wrapper with one implementation) | Half the machinery is still speculative machinery. The plain function or signature IS the seam; promote it the day the second implementation is a fact — and the seam you offer is an entity too, tested like any other. |
-| "The stdlib/platform one is fine unless you need X" — then hand-rolling | Naming the primitive obliges you to use it — rung 1's proof obligation applies, and X almost always fits it. |
-| "Here's the design as requested" (after one paragraph flagging the simpler option) | Mention-then-capitulate. The higher-rung design is the answer, stated once. |
-| "Keep it as a safety net" | Machinery you predict will always report zero guards a state the engine already forbids. Delete it. |
-| "Review approved it" | A passing review proves it works, not that it should exist. |
-| "Deleting wastes the work already done" | Sunk cost; the system gets stronger with each deletion. |
-
-## Red Flags — stop and delete
-
-- An interface, base class, wrapper, or helper with exactly one implementation or caller
-- A twin of an entity that already exists, built without searching first
-- A recurring job, checklist, or policy doc that repairs or polices what a constraint could forbid
-- A monitor or net that reports zero only because the engine already forbids the state it watches
-- Re-validation of what a boundary or lower layer already guarantees
-- A hand-maintained artifact derivable from existing data
-- A copy of truth without a stated source and reconciliation check
-- A mechanism where a row of config data could do
-- A config or flag nobody sets — one real value is a constant, not configuration
-- A name you cannot translate into one domain word
-- Destroying source data to maintain derived state
-- An entity created in this session, refused in prose but still on disk
 
 ## Domain annexes
 

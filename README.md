@@ -22,7 +22,7 @@ Start every entity at rung 0. Fall one rung only when the current rung provably 
 
 Condensed from [SKILL.md](skills/nothing-first/SKILL.md) — the canonical text.
 
-The skill also carries a mandatory deletion pass before anything is called done, honesty probes, red flags, and counters for the standard rationalizations — every one observed verbatim in baseline tests of agents working without the skill. The deletion direction has a floor: trust-boundary validation, data-loss protections, security controls, and accessibility are never simplified away. Domain annex: [sql-postgres.md](skills/nothing-first/references/sql-postgres.md) — proven Postgres entries, each with its grounds.
+The skill also carries a mandatory deletion pass before anything is called done and honesty probes; every rule is armed with its counter-rationalization inline — each observed verbatim in baseline tests of agents working without the skill. The deletion direction has a floor: trust-boundary validation, data-loss protections, security controls, and accessibility are never simplified away. Domain annex: [sql-postgres.md](skills/nothing-first/references/sql-postgres.md) — proven Postgres entries, each with its grounds.
 
 ## Measured
 
@@ -37,7 +37,7 @@ The ladder's first two rungs apply to this skill itself: does it need to exist, 
 - [Ponytail](https://github.com/DietrichGebert/ponytail) — the closest neighbor: the same maxim ("the best code is the code never written") and a source-of-code ladder starting at "does this need to exist at all?", always-on, deletion over addition. Scoped to coding tasks; its derivative `minimalist` and a family of YAGNI/KISS guard skills cover the same rungs 0–1 territory as principle summaries.
 - Built-in `/simplify` and published code-simplification skills — post-hoc, behavior-preserving cleanup of a diff, no existence questioning.
 
-What none of them contained at the time of the check (2026-07-25): the mechanism rungs of the Existence Ladder (2–6: Structure > Declaration > Derivation > Reaction > Orchestration), the any-entity/any-domain scope (docs, processes, architecture with no code), the reality-audited deletion pass ("an entity refused in prose but still present on disk"), the baseline-observed rationalization table, and the SQL/Postgres annex. That difference is why this skill exists as a separate entity. If it ever stops being a difference, this skill's own ladder says: delete it and point here to the survivor.
+What none of them contained at the time of the check (2026-07-25): the mechanism rungs of the Existence Ladder (2–6: Structure > Declaration > Derivation > Reaction > Orchestration), the any-entity/any-domain scope (docs, processes, architecture with no code), the reality-audited deletion pass ("a refusal that leaves the refused entity on disk is a falsified pass"), the baseline-observed counter-rationalizations woven into the rules, and the SQL/Postgres annex. That difference is why this skill exists as a separate entity. If it ever stops being a difference, this skill's own ladder says: delete it and point here to the survivor.
 
 ## Install (Claude Code)
 
