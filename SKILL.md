@@ -8,7 +8,7 @@ description: Use for any task in any domain — code in any language, architectu
 
 ## Overview
 
-**What is the best code? — The code that does not exist.** It has no bugs, costs nothing to read, test, maintain, or explain. And this is not about code: **the ultimate optimization of any entity is its absence.** An entity is anything you could create and then must own — a function, class, interface, service, table, index, cache, dependency, flag, job, pipeline, document, checklist, process step. The need is the asset; every entity serving it is a liability. Second best: fewer entities. The strongest change is a deletion, and a pass is measured by what it deletes.
+**What is the best code? — The code that does not exist.** It has no bugs, costs nothing to read, test, maintain, or explain. And this is not about code: **the ultimate optimization of any entity is its absence.** An entity is anything you could create and then must own — a function, class, interface, service, table, index, cache, dependency, flag, job, pipeline, document, checklist, process step. The need is the asset; every entity serving it is a liability. Second best: fewer entities. The strongest change is a deletion, and a pass is measured by what it deletes. YAGNI, KISS, DRY, and Occam's razor are single-plane projections of this principle — future need, complexity, information, concepts; the ladder operationalizes the principle itself, and no one projection bounds it.
 
 A request names a mechanism; the requirement is only the need behind it. Treat every proposed entity — the user's or your own — as a hypothesis, and test it against the ladder before it exists.
 
