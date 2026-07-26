@@ -10,11 +10,11 @@ description: Use for any task in any domain — code in any language, architectu
 
 **What is the best code? — The code that does not exist.** It has no bugs, costs nothing to read, test, maintain, or explain. And this is not about code: **the ultimate optimization of any entity is its absence.** An entity is anything you could create and then must own — a function, class, interface, service, table, index, cache, dependency, flag, job, pipeline, document, checklist, process step. The need is the asset; every entity serving it is a liability. Second best: fewer entities. The strongest change is a deletion, and a pass is measured by what it deletes. YAGNI, KISS, DRY, and Occam's razor are single-plane projections of this principle — future need, complexity, information, concepts; the ladder operationalizes the principle itself, and no one projection bounds it.
 
-A request names a mechanism; the requirement is only the need behind it. Treat every proposed entity — the user's or your own — as a hypothesis, and test it against the ladder before it exists.
+A request names a mechanism; the requirement is only the need behind it. A bug report names a symptom the same way: the fix lives where every caller routes through, and the sibling grep is the absence test for a symptom-local patch. Treat every proposed entity — the user's or your own — as a hypothesis, and test it against the ladder before it exists.
 
 ## The Existence Ladder
 
-Start every entity at rung 0. Fall one rung only when the current rung provably cannot meet the need — "feels more natural" (habit is not best practice), "we might need it later" (a need is a fact, not a forecast), "the user asked for this mechanism" (a mechanism is not the need), "everyone does it this way" (a common practice is a candidate to verify, not a proof) are not proofs.
+The ladder runs after the need and the touched reality are traced end to end — it shortens the solution, never the reading. Start every entity at rung 0. Fall one rung only when the current rung provably cannot meet the need — "feels more natural" (habit is not best practice), "we might need it later" (a need is a fact, not a forecast), "the user asked for this mechanism" (a mechanism is not the need), "everyone does it this way" (a common practice is a candidate to verify, not a proof) are not proofs.
 
 0. **Nothing.** Does the entity need to exist at all? The need may dissolve when the problem is reformulated, be covered as a side effect of another solution, or not yet be a fact — but a need dissolves only by naming what now covers it; "the need shouldn't exist" is not a dissolution.
 1. **Exists.** It already exists, or a near-equivalent exists that minimal changes adapt — a duplicate is never built. Search nearest scope first, stopping at the first fit: this project (the problem has usually been solved here before), the session context, the platform and stdlib, the wider world — libraries, registries, marketplaces. Judge a fit by today's best practice — checked as fresh as the effort scale warrants, not recalled from last time. This rung is still the fallback, not the goal: even the best found practice answers a problem that continues to exist, and a common practice usually standardizes living with the problem — verify it, and first ask rung 0 whether the problem can be made not to exist at all. Effort scales with the entity's ownership cost — a throwaway merits a grep, a new dependency or service merits a real look; an unreachable scope is named and skipped, not stalled on. Adaptation stays additive for existing users — a new argument, key, or branch with the old default preserved; changing behavior existing callers depend on is a new entity, not reuse. Having found a primitive that covers the need, you may not hand-roll a replacement until you prove the difference cannot be an argument, a key, or a one-line use of it.
@@ -30,7 +30,7 @@ If correctness needs a paragraph about interleavings, ordering, or firing — wr
 
 ## Iteration Protocol
 
-Runs in two places: while designing, and after a working solution — a mandatory deletion pass before anything is called done. Deadline pressure defers applying a fix, never running the pass: name every finding, schedule every deferred deletion; "skip the pass" is never among the offered options.
+Runs in two places: while designing, and after a working solution — a mandatory deletion pass before anything is called done. Deadline pressure defers applying a fix, never running the pass: name every finding, schedule every deferred deletion and name the trigger that revives it; "skip the pass" is never among the offered options.
 
 A pass asks of every entity: deletable outright? climbs a rung? made unnecessary by the latest change? Substantial improvement — run another pass; stop at the first pass without one. The pass also runs over the domain annexes: append verified wins, prune stale entries (see Domain annexes).
 
@@ -38,11 +38,11 @@ The pass runs over reality, not the narrative: inventory what this work material
 
 The ladder is a test, not a bias: an entity that passes the absence test is the answer — ship it without hedging; deleting or refusing a proven entity is the same falsified pass as keeping an unproven one. The user's explicit decision to keep a named entity — made after hearing the verdict, not in the initial request — ends the question: record the finding once, keep it, do not re-litigate it in later passes.
 
-Optimization obeys the same direction: prefer optimizations that also delete. An optimization that adds an entity requires a measurement.
+Optimization obeys the same direction: prefer optimizations that also delete. An optimization that adds an entity requires a measurement. Between candidates with equal entity count, the edge-case-correct one wins — the ladder counts entities, it never trades correctness. Never deleted on any pass: trust-boundary validation, data-loss protections, security controls, accessibility — unless a declaration provably subsumes them.
 
 Probes that force honesty:
 
-- **Absence test.** Say what concretely breaks today if the entity never exists. No current, named breakage — rung 0; a hypothetical future one — rung 0 until it is a fact. A need grounded in an external fact — untrusted input, failure rates, data-loss exposure, compliance, a measured performance cost (a number, not a feeling) — is a fact without a local breakage. Existence claims — including "nothing suitable exists" — are verified by looking (ls, git status, grep), never asserted from memory or narrative; show the look, and label what cannot be inspected from here as an assumption, confirming the load-bearing ones.
+- **Absence test.** Say what concretely breaks today if the entity never exists. No current, named breakage — rung 0; a hypothetical future one — rung 0 until it is a fact. Exempt: the minimal check — one runnable check that fails when the logic breaks makes every other verdict checkable; never a deletion target, still capped by the ladder at one smallest check, no speculative suites. A need grounded in an external fact — untrusted input, failure rates, data-loss exposure, compliance, a measured performance cost (a number, not a feeling) — is a fact without a local breakage. Existence claims — including "nothing suitable exists" — are verified by looking (ls, git status, grep), never asserted from memory or narrative; show the look, and label what cannot be inspected from here as an assumption, confirming the load-bearing ones.
 - **Explain test.** Explain the entity aloud. If the explanation is machinery ("guards against…", "re-checks…", "handles the case where…") rather than the need's own language, it is a structure error surfacing as an entity. A guard is legal only against states no reachable structure or declaration could forbid — judge the model as it can be repaired, not as it stands broken; a one-off repair of old data is repair, not a guard.
 - **Translation test.** Can the name be said as one plain domain word? If not, the concept is wrong — renaming is design; rename until the vocabulary is coherent.
 
@@ -72,6 +72,7 @@ Every row was observed verbatim in baseline tests of agents without this skill.
 - A hand-maintained artifact derivable from existing data
 - A copy of truth without a stated source and reconciliation check
 - A mechanism where a row of config data could do
+- A config or flag nobody sets — one real value is a constant, not configuration
 - A name you cannot translate into one domain word
 - Destroying source data to maintain derived state
 - An entity created in this session, refused in prose but still on disk
