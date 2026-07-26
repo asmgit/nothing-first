@@ -1,0 +1,15 @@
+{
+  "name": "nothing-first",
+  "owner": {
+    "name": "asm"
+  },
+  "plugins": [
+    {
+      "name": "nothing-first",
+      "source": "./",
+      "description": "The ultimate optimization of any entity is its absence — the best code is the code that does not exist. An always-on Existence Ladder for any domain.",
+      "version": "1.0.0",
+      "license": "MIT"
+    }
+  ]
+}

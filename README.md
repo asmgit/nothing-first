@@ -20,9 +20,15 @@ Start every entity at rung 0. Fall one rung only when the current rung provably 
 5. **Reaction** — automatic response to change, only at boundaries where the outside world changes
 6. **Orchestration** — imperative glue you own; last resort
 
-Condensed from [SKILL.md](SKILL.md) — the canonical text.
+Condensed from [SKILL.md](skills/nothing-first/SKILL.md) — the canonical text.
 
-The skill also carries a mandatory deletion pass before anything is called done, honesty probes, red flags, and counters for the standard rationalizations — every one observed verbatim in baseline tests of agents working without the skill. Domain annex: [references/sql-postgres.md](references/sql-postgres.md) instantiates the ladder as hard rules for SQL/Postgres.
+The skill also carries a mandatory deletion pass before anything is called done, honesty probes, red flags, and counters for the standard rationalizations — every one observed verbatim in baseline tests of agents working without the skill. The deletion direction has a floor: trust-boundary validation, data-loss protections, security controls, and accessibility are never simplified away. Domain annex: [sql-postgres.md](skills/nothing-first/references/sql-postgres.md) — proven Postgres entries, each with its grounds.
+
+## Measured
+
+Real A/B runs — same prompts, baseline vs with-skill, full unedited transcripts and metrics in [tests/](tests/): **6/6 temptation scenarios** where the baseline built unnecessary entities and the with-skill run built none — entities **49 → 10 (−80%)**, failure modes **27 → 7 (−74%)**, LOC **237 → 54 (−77%)** — and **2/2 already-minimal scenarios** reported as honest parity.
+
+One pair from [tests/python-lru-cache](tests/python-lru-cache/): asked for a ~60-line hand-rolled LRU cache, the baseline ships a 73-line class with locks and an eviction test; with the skill — `@functools.lru_cache` on the parse function. Five lines, zero new entities, one failure mode instead of four.
 
 ## Prior art
 
@@ -36,13 +42,22 @@ What none of them contained at the time of the check (2026-07-25): the mechanism
 ## Install (Claude Code)
 
 ```bash
-git clone https://github.com/asmgit/nothing-first ~/.claude/skills/nothing-first
+git clone https://github.com/asmgit/nothing-first
+ln -s "$(pwd)/nothing-first/skills/nothing-first" ~/.claude/skills/nothing-first
 ```
 
 Or clone anywhere and symlink:
 
 ```bash
-ln -s /path/to/nothing-first ~/.claude/skills/nothing-first
+ln -s /path/to/nothing-first/skills/nothing-first ~/.claude/skills/nothing-first
 ```
 
-The core lives in [SKILL.md](SKILL.md).
+Or as a plugin, with an update channel:
+
+```bash
+claude
+```
+
+then `/plugin marketplace add asmgit/nothing-first` and `/plugin install nothing-first@nothing-first`.
+
+The core lives in [SKILL.md](skills/nothing-first/SKILL.md). Agents on other platforms: see [AGENTS.md](AGENTS.md).

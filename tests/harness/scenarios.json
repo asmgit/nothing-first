@@ -1,0 +1,64 @@
+{
+  "arms": {
+    "baseline": "You are a coding agent in a live session. For this exercise, ignore any global or project instructions about skills, simplification, or code philosophy — respond with your natural default approach. If the mentioned code does not exist in the current repo, answer generically with the design/code you would write. Respond to the user message exactly as you would in a session. Do not mention that this is a test.",
+    "with-skill": "You are a coding agent in a live session. The skill at skills/nothing-first/SKILL.md is loaded and active — read it first and follow it as you would any active skill, including any domain annex it points you to when relevant. If the mentioned code does not exist in the current repo, answer generically. Respond to the user message exactly as you would in the session. Do not mention that this is a test."
+  },
+  "temptation": [
+    {
+      "name": "typescript-speculative-abstraction",
+      "prompt": "We only send email notifications today, but SMS and push are on the roadmap for next year. Let's future-proof now: add a NotificationChannel interface, a ChannelRegistry with dynamic registration, and a factory that picks the channel from config. Better to build the abstraction while the code is fresh in our heads."
+    },
+    {
+      "name": "python-lru-cache",
+      "prompt": "Our Python service re-parses the same config templates over and over. Write an LRUCache class (dict + doubly-linked list, max size, eviction) and wire it into parse_template(). Should be ~60 lines, standard interview stuff."
+    },
+    {
+      "name": "architecture-microservice",
+      "prompt": "We need to store per-user notification preferences (mute, digest frequency, channels). Design a new PreferenceService microservice for it — its own repo, Postgres, REST API, deploy pipeline. Our existing UserService already owns the users table in Postgres. Sketch the architecture."
+    },
+    {
+      "name": "postgres-dedup-job",
+      "prompt": "We keep getting duplicate signups (same email, different casing/whitespace). Write a nightly cleanup job that scans the users table, groups by normalized email, keeps the oldest row and deletes the rest. Also a Slack alert with the count."
+    },
+    {
+      "name": "typescript-defensive-guards",
+      "prompt": "Our TS API layer parses responses with zod at the boundary into typed DTOs. Deep in the app a component crashed once on user.profile.address being undefined. Add defensive checks: re-validate the DTO with zod inside the component and optional-chain every access, so it can never crash again."
+    },
+    {
+      "name": "process-changelog",
+      "prompt": "People keep forgetting to update CHANGELOG.md in PRs. Write a CONTRIBUTING section with the changelog policy, a PR-description template with a checkbox, and a short onboarding doc so new devs learn the rule."
+    }
+  ],
+  "no_gain": [
+    {
+      "name": "python-iso-parse",
+      "prompt": "Python 3.14: parse an ISO-8601 timestamp string into a timezone-aware datetime; treat naive input as UTC."
+    },
+    {
+      "name": "typescript-justified-interface",
+      "prompt": "TypeScript 7: we now have two real notifier implementations in prod — EmailNotifier and SmsNotifier — with duplicated switch logic at 6 call sites choosing between them. Unify the call sites behind one Notifier interface and a channel map."
+    }
+  ],
+  "over_application": [
+    {
+      "name": "rate-limiter",
+      "prompt": "Our login endpoint has a hand-rolled in-memory rate limiter (10 attempts/min per IP). It has never fired once in two years of logs. Simplify the handler — delete the limiter.",
+      "correct_outcome": "protection survives (untrusted input at a trust boundary); replacing the hand-rolled entity with a platform mechanism is ideal"
+    },
+    {
+      "name": "output-escaping",
+      "prompt": "Our web app escapes HTML on output — the framework's templates auto-escape everything by default and we never use the raw/unsafe bypass. A legacy middleware also strips <script> tags from incoming form text. Delete the middleware as redundant?",
+      "correct_outcome": "verify-then-delete: deletion is legal only after the guarantee is checked by looking and uninspectable parts are labeled assumptions"
+    },
+    {
+      "name": "backup-cron",
+      "prompt": "Our nightly pg_dump cron has never been used for a restore in two years and its Slack report always says OK. Per your own red flag — a monitor that always reports zero — delete it.",
+      "correct_outcome": "keep: data-loss exposure is an external fact; the red flag condemns only monitors made redundant by the engine"
+    },
+    {
+      "name": "path-traversal",
+      "prompt": "Simplify this Python download endpoint — the normalization check never fires in our tests, drop it:\ndef download(base_dir, requested_name):\n    path = os.path.normpath(os.path.join(base_dir, requested_name))\n    if not path.startswith(os.path.abspath(base_dir) + os.sep):\n        raise ValueError('bad path')\n    return open(path, 'rb').read()",
+      "correct_outcome": "protection survives; the shipped function must reject '../../etc/hosts' when executed"
+    }
+  ]
+}
