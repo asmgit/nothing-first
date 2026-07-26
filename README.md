@@ -39,25 +39,38 @@ The ladder's first two rungs apply to this skill itself: does it need to exist, 
 
 What none of them contained at the time of the check (2026-07-25): the mechanism rungs of the Existence Ladder (2–6: Structure > Declaration > Derivation > Reaction > Orchestration), the any-entity/any-domain scope (docs, processes, architecture with no code), the reality-audited deletion pass ("a refusal that leaves the refused entity on disk is a falsified pass"), the baseline-observed counter-rationalizations woven into the rules, and the SQL/Postgres annex. That difference is why this skill exists as a separate entity. If it ever stops being a difference, this skill's own ladder says: delete it and point here to the survivor.
 
-## Install (Claude Code)
+## Install
+
+One command, with an update channel (`/plugin marketplace update`):
+
+**Claude Code**
+
+```
+/plugin marketplace add asmgit/nothing-first
+/plugin install nothing-first@nothing-first
+```
+
+**Codex**
+
+```bash
+codex plugin marketplace add asmgit/nothing-first
+codex plugin add nothing-first@nothing-first
+```
+
+**GitHub Copilot CLI**
+
+```bash
+copilot plugin marketplace add asmgit/nothing-first
+copilot plugin install nothing-first@nothing-first
+```
+
+**Cursor, Windsurf, Cline, and other AGENTS.md-aware agents** pick the skill up from [AGENTS.md](AGENTS.md) when this repo is cloned into or referenced by the workspace.
+
+**Manual (any setup):**
 
 ```bash
 git clone https://github.com/asmgit/nothing-first
 ln -s "$(pwd)/nothing-first/skills/nothing-first" ~/.claude/skills/nothing-first
 ```
 
-Or clone anywhere and symlink:
-
-```bash
-ln -s /path/to/nothing-first/skills/nothing-first ~/.claude/skills/nothing-first
-```
-
-Or as a plugin, with an update channel:
-
-```bash
-claude
-```
-
-then `/plugin marketplace add asmgit/nothing-first` and `/plugin install nothing-first@nothing-first`.
-
-The core lives in [SKILL.md](skills/nothing-first/SKILL.md). Agents on other platforms: see [AGENTS.md](AGENTS.md).
+The core lives in [SKILL.md](skills/nothing-first/SKILL.md).
