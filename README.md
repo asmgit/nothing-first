@@ -22,6 +22,14 @@ Condensed from [SKILL.md](skills/nothing-first/SKILL.md) — the canonical text.
 
 The skill also carries a mandatory deletion pass before anything is called done and honesty probes; every rule is armed with its counter-rationalization inline — each observed verbatim in baseline tests of agents working without the skill. The deletion direction has a floor: trust-boundary validation, data-loss protections, security controls, and accessibility are never simplified away. Domain annex: [sql-postgres.md](skills/nothing-first/references/sql-postgres.md) — proven Postgres entries, each with its grounds.
 
+## The defence
+
+The ladder decides whether an entity exists. It never decided which of the surviving ways to build it — so the cheapest-looking option won by default, and the thorough-looking one won whenever thoroughness read as diligence. Both are choices made without pricing the alternative.
+
+A defence is spoken for what does not exist yet. Nothing is built, so nothing can be shown: the case rests on the need it would serve, the cheaper option you are not taking with what each costs now and obliges someone to carry later, the limits the work will not reach, and the objection you would rather not hear — raised by you, then answered or conceded. The standard is result per unit of cost. Doubling the work for a refinement nobody asked for fails exactly as hard as saving an hour by leaving a stated requirement unmet.
+
+Delivery afterwards reports against that defence instead of repeating it: which claim the evidence carried, which it did not, which limit turned out narrower. An unverified claim is undelivered. A limit conceded in the defence is a boundary; the same limit found later by someone else is a defect. And a defence that fails is a redesign order, not a disclosure — an objection you cannot answer changes the design, not the wording around it.
+
 ## Measured
 
 Real A/B runs — same prompts, baseline vs with-skill, full unedited transcripts and metrics in [tests/](tests/): **6/6 temptation scenarios** where the baseline built unnecessary entities and the with-skill run built none — entities **49 → 10 (−80%)**, failure modes **27 → 7 (−74%)**, LOC **237 → 54 (−77%)** — and **2/2 already-minimal scenarios** reported as honest parity.
