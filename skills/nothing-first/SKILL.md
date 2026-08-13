@@ -38,7 +38,7 @@ The ladder is a test, not a bias: an entity that passes the absence test is the 
 
 Optimization obeys the same direction: prefer optimizations that also delete. An optimization that adds an entity requires a measurement. Between candidates with equal entity count, the edge-case-correct one wins — the ladder counts entities, it never trades correctness. Never deleted on any pass: trust-boundary validation, data-loss protections, security controls, accessibility — unless a declaration provably subsumes them. A monitor or net is dead only when it reports zero because the engine already forbids the state it watches — then delete it.
 
-Finished work is delivered as a defence, not a report: the need it serves, each claim with the evidence carrying it, and the limits it does not reach. An unverified claim is undelivered. The objection you would rather not hear is the one to raise yourself and then answer or concede — conceded early it is a boundary, raised by someone else it is a defect.
+A defence is spoken for what does not exist yet — nothing built can be shown, so it stands on the need it would serve, the claims it would have to make good, the limits it will not reach, and the objection you would rather not hear, raised by you and answered or conceded. Delivery then reports against that defence instead of restating it: which claim the evidence carried, which it did not, which limit turned out narrower. An unverified claim is undelivered; a limit conceded in the defence is a boundary, the same limit found afterwards by someone else is a defect.
 
 Probes that force honesty:
 
