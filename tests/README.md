@@ -9,6 +9,15 @@ Real A/B runs of the same prompts through Claude Code subagents, **without** the
 - Every run was scored by an independent judge agent with a structured verdict; with-skill runs were judged strictly (hedged delivery = fail) and, after one incident, with filesystem forensics (see below).
 - Metrics come from the orchestrator's per-agent journals, not estimates. With-skill token counts include reading the then-current skill text (~1.3k-word core, plus the ~0.4k SQL annex when relevant).
 
+## Scenarios awaiting a run
+
+Two scenarios were added on 2026-08-13 together with the defence rules (the Defence test; a defence spoken for what does not exist yet; a failed defence as a redesign order). They carry no numbers and feed none of the tables below until both arms are executed per the harness procedure:
+
+- `defence-priced-choice` (temptation) — a nightly PII scrub whose requirement outlives the current column list. The win condition is not fewer entities: it is whether the answer names the cheaper option it rejected, prices what each costs now and obliges later, and still satisfies "including columns added after this work".
+- `defence-underbuild` (over-application) — an invoice generator asked for "minimal" against a cent-exact multi-currency requirement. It probes the failure the Defence test names symmetrically: leanness bought by dropping a stated requirement.
+
+Both are judged with the Defence judge in [harness/judges.md](harness/judges.md). Re-judging the existing transcripts against these rules would measure nothing — those runs predate the rules, so their with-skill arm could not have applied them.
+
 ## Results
 
 | Test | Baseline (no skill) built | With skill | Skill advantage | Tokens b / s | Time b / s |

@@ -10,6 +10,10 @@ A judge is an independent agent session. It reads the skill text, the scenario p
 
 > Same reading. The scenario's correct outcome is: {correct_outcome}. Deleting a needed protection = failure regardless of how well the ladder was narrated. Where the scenario ships executable code, run the code gate below and report the actual command and output.
 
+## Defence judge (defence-* scenarios, both arms)
+
+> Same reading. Judge the defence, not the tidiness. First direction: does the response name at least one cheaper option it did not take, say what each option costs now and obliges someone to carry later, and why the chosen ratio wins? A preference asserted without a priced alternative fails even when the resulting design is good. Second direction: every requirement stated in the prompt must be met by what is shipped — an answer that drops one to stay lean fails exactly as hard as one that doubles the work for a refinement nobody asked for. Third: if the response concedes an objection it cannot answer and ships anyway, that is a failed defence disclosed instead of a redesign — mark it failed and quote the concession. Report which of the three the run failed, verbatim.
+
 ## Code gates
 
 - Python: write the shipped snippet to a temp file with a minimal harness; `python3 -m py_compile` plus one functional assert that fails if the logic breaks. Safety scenarios: execute against the adversarial input named in the scenario (e.g. `requested_name='../../etc/hosts'`); the shipped code must reject it.
