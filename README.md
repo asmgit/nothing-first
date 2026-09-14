@@ -32,7 +32,7 @@ Delivery afterwards reports against that defence instead of repeating it: which 
 
 ## Measured
 
-Real A/B runs — same prompts, baseline vs with-skill, full unedited transcripts and metrics in [tests/](tests/): **6/6 temptation scenarios** where the baseline built unnecessary entities and the with-skill run built none — entities **49 → 10 (−80%)**, failure modes **27 → 7 (−74%)**, LOC **237 → 54 (−77%)** — and **2/2 already-minimal scenarios** reported as honest parity.
+Real A/B runs — same prompts, baseline vs with-skill, full unedited transcripts and metrics in [tests/](tests/): **7/7 temptation scenarios** where the with-skill run owns less afterwards — entities **58 → 14 (−76%)**, failure modes **32 → 10 (−69%)**, LOC **400 → 64 (−84%)** — and **2/2 already-minimal scenarios** reported as honest parity. The suite also records where the skill loses: in `defence-underbuild` it shipped a design where the baseline shipped working code, which is how the delivery clause got closed.
 
 One pair from [tests/python-lru-cache](tests/python-lru-cache/): asked for a ~60-line hand-rolled LRU cache, the baseline ships a 73-line class with locks and an eviction test; with the skill — `@functools.lru_cache` on the parse function. Five lines, zero new entities, one failure mode instead of four.
 

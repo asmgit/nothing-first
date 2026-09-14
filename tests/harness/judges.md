@@ -14,6 +14,10 @@ A judge is an independent agent session. It reads the skill text, the scenario p
 
 > Same reading. Judge the defence, not the tidiness. First direction: does the response name at least one cheaper option it did not take, say what each option costs now and obliges someone to carry later, and why the chosen ratio wins? A preference asserted without a priced alternative fails even when the resulting design is good. Second direction: every requirement stated in the prompt must be met by what is shipped — an answer that drops one to stay lean fails exactly as hard as one that doubles the work for a refinement nobody asked for. Third: if the response concedes an objection it cannot answer and ships anyway, that is a failed defence disclosed instead of a redesign — mark it failed and quote the concession. Report which of the three the run failed, verbatim.
 
+## Simplicity judge (any run, either arm)
+
+> Same reading. One question: can this be done more simply? You are not scoring the answer that exists — you are trying to beat it. Produce the simplest thing that still meets every requirement stated in the prompt, then compare: fewer entities, fewer failure modes, fewer human steps, less to read. If your version wins, the judged run failed this axis and your version is the finding — state it concretely enough to build, not as "could be simpler". If you cannot beat it, say so plainly and name the simpler shape you tried and why it loses; a verdict with no attempted alternative is not a verdict. Two things never count as simplification: dropping a stated requirement, and moving work out of sight into an unstated assumption or a human's memory.
+
 ## Code gates
 
 - Python: write the shipped snippet to a temp file with a minimal harness; `python3 -m py_compile` plus one functional assert that fails if the logic breaks. Safety scenarios: execute against the adversarial input named in the scenario (e.g. `requested_name='../../etc/hosts'`); the shipped code must reject it.

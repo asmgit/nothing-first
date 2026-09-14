@@ -6,7 +6,7 @@
 - Language/stack version: Python + PostgreSQL (no version pinned by the prompt)
 - Test date: 2026-08-14
 - Harness: no skill; agent instructed to ignore skill/philosophy instructions and answer naturally
-- Judge verdict: pending
+- Judge verdict: PASS — all three axes and the code gate. Executed: minor-unit round-trips for 0-, 2- and 3-decimal currencies, sub-minor precision raising instead of rounding, and a one-cent ledger mismatch raising instead of rendering. This baseline did not underbuild.
 
 ## Prompt
 

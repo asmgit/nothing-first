@@ -6,7 +6,7 @@
 - Language/stack version: PostgreSQL (PostgreSQL Anonymizer extension)
 - Test date: 2026-08-14
 - Harness: nothing-first SKILL.md loaded and read before answering (domain annexes followed when relevant)
-- Judge verdict: pending
+- Judge verdict: PASS — all five axes. Findings recorded: `anon.random_phone()` written from memory (the docs show a one-argument form), `anon.init()` missing from the "three declarations" inventory, and the managed-hosting case (extension unavailable on RDS) handed over as a constraint to check rather than confirmed — the baseline covered that case explicitly.
 
 ## Prompt
 
