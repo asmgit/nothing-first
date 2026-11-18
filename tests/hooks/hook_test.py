@@ -85,6 +85,13 @@ class PassGateTest(unittest.TestCase):
     def test_bash_scratch_write_is_not_code(self):
         self.assertIsNone(run_gate(user('посчитай'), bash('cd /private/tmp/claude-502/x/scratchpad && cat > a.py <<EOF\nEOF'), tool_result(), say('Итог.')))
 
+    def test_prompt_after_injected_reminder_starts_a_new_turn(self):
+        prompt = {'type': 'user', 'message': {'role': 'user', 'content': [
+            {'type': 'text', 'text': '<system-reminder>status</system-reminder>'},
+            {'type': 'text', 'text': 'смотри каменты'},
+        ]}}
+        self.assertIsNone(run_gate(user('сделай'), edit(), tool_result(), say('Готово.'), prompt, say('Комментариев нет.')))
+
     def test_previous_turn_edits_are_ignored(self):
         self.assertIsNone(run_gate(user('сделай'), edit(), tool_result(), say('Готово.'), user('а почему?'), say('Потому что.')))
 

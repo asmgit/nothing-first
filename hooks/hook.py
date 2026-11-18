@@ -22,11 +22,11 @@ MISSING_PASS = (
 
 def is_user_prompt(entry):
     content = entry.get('message', {}).get('content')
-    if isinstance(content, list):
-        if any(isinstance(part, dict) and part.get('type') == 'tool_result' for part in content):
-            return False
-        content = ' '.join(part.get('text', '') for part in content if isinstance(part, dict))
-    return isinstance(content, str) and content.strip() != '' and not content.lstrip().startswith('<') and not entry.get('isMeta')
+    parts = [content] if isinstance(content, str) else content or []
+    if entry.get('isMeta') or any(isinstance(part, dict) and part.get('type') == 'tool_result' for part in parts):
+        return False
+    texts = [part if isinstance(part, str) else part.get('text', '') for part in parts if isinstance(part, str) or part.get('type') == 'text']
+    return any(text.strip() and not text.lstrip().startswith('<') for text in texts)
 
 
 def is_code_edit(tool_use):
