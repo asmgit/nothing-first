@@ -56,7 +56,7 @@ One command, with an update channel (`/plugin marketplace update`):
 /plugin install nothing-first@nothing-first
 ```
 
-The plugin also installs two hooks ([hooks/](hooks/)): the skill is loaded at session start, and a turn that changed code cannot end until a `Simplification:` record follows the last change. A symlinked skill gets the text only. Hook tests: `python3 -m unittest discover -s tests/hooks -p '*_test.py'`; share of past turns that ended with a pass: `python3 tests/hooks/replay.py`.
+The plugin also installs two hooks ([hooks/](hooks/)): the skill is loaded at session start, and a turn that changed code cannot end until a `nothing-first:` record follows the last change. A symlinked skill gets the text only. Hook tests: `python3 -m unittest discover -s tests/hooks -p '*_test.py'`; share of past turns that ended with a pass: `python3 tests/hooks/replay.py`.
 
 **Codex**
 

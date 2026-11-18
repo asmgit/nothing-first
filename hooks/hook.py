@@ -11,12 +11,12 @@ BASH_WRITE = re.compile(
     r"|(^|[\s;&|])(>>?|tee(\s+-a)?)\s*[^\s|&;<>]+\.(php|tsx?|m?js|py|sql|json|ya?ml|sh|css|html|vue|go|rb|java|kt|swift|toml|conf|tf|hcl)\b"
 )
 NON_CODE_COMMAND = re.compile(r'/(private/)?tmp/|/memory/|MEMORY\.md')
-PASS_RECORD = re.compile(r'^\s*Simplification:\s*(.{20,})$', re.M)
+PASS_RECORD = re.compile(r'^\s*nothing-first:\s*(.{20,})$', re.M)
 MISSING_PASS = (
-    'nothing-first: code changed in this turn and no simplification pass follows the last change. '
+    'Code changed in this turn and no nothing-first pass follows the last change. '
     'Run the pass: build the simplest version that meets every stated requirement and compare. '
     'It wins — apply it and run another pass. It loses — one line '
-    '"Simplification: <simpler shape you weighed> — <why it loses>".'
+    '"nothing-first: <simpler shape you weighed> — <why it loses>".'
 )
 
 

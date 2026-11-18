@@ -30,7 +30,7 @@ def say(text):
     return {'type': 'assistant', 'message': {'content': [{'type': 'text', 'text': text}]}}
 
 
-PASS = 'Simplification: status check in PHP via in_array — the IVR LIMIT 1 picks a closed deal, SQL stays.'
+PASS = 'nothing-first: status check in PHP via in_array — the IVR LIMIT 1 picks a closed deal, SQL stays.'
 
 
 def run_hook(hook_input):
@@ -74,7 +74,7 @@ class PassGateTest(unittest.TestCase):
         self.assertEqual(run_gate(user('сделай'), say(PASS), edit(), tool_result(), say('Готово.')), 'block')
 
     def test_empty_pass_is_blocked(self):
-        self.assertEqual(run_gate(user('сделай'), edit(), tool_result(), say('Simplification: none')), 'block')
+        self.assertEqual(run_gate(user('сделай'), edit(), tool_result(), say('nothing-first: none')), 'block')
 
     def test_memory_edit_is_not_code(self):
         self.assertIsNone(run_gate(user('запомни'), edit(MEMORY_FILE), tool_result(), say('Запомнил.')))
