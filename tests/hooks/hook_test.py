@@ -38,10 +38,11 @@ def run_hook(hook_input):
     return json.loads(out) if out.strip() else {}
 
 
-def run_gate(*entries):
+def run_gate(*entries, last_assistant_message=''):
     with tempfile.NamedTemporaryFile('w', suffix='.jsonl', delete=False) as transcript:
         transcript.write('\n'.join(json.dumps(e, ensure_ascii=False) for e in entries))
-    return run_hook({'hook_event_name': 'Stop', 'transcript_path': transcript.name}).get('decision')
+    hook_input = {'hook_event_name': 'Stop', 'transcript_path': transcript.name, 'last_assistant_message': last_assistant_message}
+    return run_hook(hook_input).get('decision')
 
 
 class SessionStartTest(unittest.TestCase):
@@ -59,6 +60,9 @@ class PassGateTest(unittest.TestCase):
 
     def test_edit_followed_by_pass_stops(self):
         self.assertIsNone(run_gate(user('сделай'), edit(), tool_result(), say(PASS)))
+
+    def test_final_message_not_yet_in_transcript_counts(self):
+        self.assertIsNone(run_gate(user('сделай'), edit(), tool_result(), last_assistant_message=f'Готово.\n\n{PASS}'))
 
     def test_improvement_after_pass_needs_another_pass(self):
         self.assertEqual(run_gate(user('сделай'), edit(), tool_result(), say(PASS), edit(), tool_result(), say('Готово.')), 'block')

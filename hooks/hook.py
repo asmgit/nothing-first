@@ -64,7 +64,7 @@ def on_session_start(hook_input):
 
 def on_stop(hook_input):
     *_, events = turns(hook_input['transcript_path'])
-    if events and events[-1] == 'edit':
+    if events and events[-1] == 'edit' and not PASS_RECORD.search(hook_input.get('last_assistant_message') or ''):
         return {'decision': 'block', 'reason': MISSING_PASS}
     return None
 
